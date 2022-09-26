@@ -5,7 +5,7 @@ using UnityEngine;
 public class DrivingControls : MonoBehaviour
 {
     [SerializeField] float acceration, torque, maxSpeed, speed, maxAngularVelocity;
-
+    bool grass,track,mud;
     public Rigidbody2D rb;
 
     // Start is called before the first frame update
@@ -19,15 +19,27 @@ public class DrivingControls : MonoBehaviour
     {
         speed = rb.velocity.magnitude;
         
-    
-        if(Input.GetKey(KeyCode.D) && rb.angularVelocity<maxAngularVelocity){
-            float turn = Input.GetAxis("Horizontal");
-            rb.AddTorque(torque*turn*-1);
-        } else if(Input.GetKey(KeyCode.A) && -1*rb.angularVelocity<maxAngularVelocity){
-            float turn = Input.GetAxis("Horizontal");
-            rb.AddTorque(torque*turn*-1);
-        } else{
-          rb.angularVelocity = 0;  
+        if (Vector2.Dot(rb.velocity, transform.up)>0){
+            if(Input.GetKey(KeyCode.D) && rb.angularVelocity<maxAngularVelocity){
+                float turn = Input.GetAxis("Horizontal");
+                rb.AddTorque(torque*turn*-1);
+            } else if(Input.GetKey(KeyCode.A) && -1*rb.angularVelocity<maxAngularVelocity){
+                float turn = Input.GetAxis("Horizontal");
+                rb.AddTorque(torque*turn*-1);
+            } else{
+                rb.angularVelocity = 0;
+            }
+        }
+        else{
+            if(Input.GetKey(KeyCode.D) && rb.angularVelocity<maxAngularVelocity){
+                float turn = Input.GetAxis("Horizontal");
+                rb.AddTorque(torque*turn*-1);
+            } else if(Input.GetKey(KeyCode.A) && -1*rb.angularVelocity<maxAngularVelocity){
+                float turn = Input.GetAxis("Horizontal");
+                rb.AddTorque(torque*turn*-1);
+            } else{
+                rb.angularVelocity = 0;
+            }
         }
 
         if(Input.GetKey(KeyCode.W) && speed<maxSpeed){
@@ -42,5 +54,22 @@ public class DrivingControls : MonoBehaviour
         } else {
             rb.velocity = -transform.up*speed;
         }
+        
+    }
+    public void setMud(){
+        maxSpeed = 1;
+        rb.drag = 0.4f;
+    }
+    public void setGrass(){
+        maxSpeed = Mathf.Min(maxSpeed, 3);
+        rb.drag = 0.4f;
+    }
+    public void exitMud(){
+        maxSpeed = 7;
+        rb.drag = 0;
+    }
+    public void exitGrass(){
+        maxSpeed = 7;
+        rb.drag = 0;
     }
 }
