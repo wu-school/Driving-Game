@@ -5,8 +5,9 @@ using UnityEngine;
 public class DrivingControls : MonoBehaviour
 {
     [SerializeField] float acceration, torque, maxSpeed, speed, maxAngularVelocity;
-    bool grass,track,mud;
+    public bool grass,track,mud;
     public Rigidbody2D rb;
+
 
     // Start is called before the first frame update
     void Start()
@@ -55,21 +56,52 @@ public class DrivingControls : MonoBehaviour
             rb.velocity = -transform.up*speed;
         }
         
+        if(mud){
+            maxSpeed = 0.95f;
+            rb.drag = 0.4f;
+        } else if(grass && !track){
+            maxSpeed = 3f;
+            rb.drag = 0.4f;
+        } else if(track && !mud) {
+            maxSpeed = 6.95f;
+            rb.drag = 0;
+        }              
+        
     }
     public void setMud(){
-        maxSpeed = 1;
-        rb.drag = 0.4f;
+        
     }
     public void setGrass(){
         maxSpeed = Mathf.Min(maxSpeed, 3);
         rb.drag = 0.4f;
     }
     public void exitMud(){
-        maxSpeed = 7;
+        maxSpeed = 6.95f;
         rb.drag = 0;
     }
     public void exitGrass(){
-        maxSpeed = 7;
+        maxSpeed = 6.95f;
         rb.drag = 0;
+    }
+
+    private void OnGUI() {  
+        GUI.Label(new Rect(0,0,150,30), "Speed " + Mathf.RoundToInt(speed*100));
+    }
+    private void OnTriggerStay2D(Collider2D other) {
+        if(other.gameObject.tag.Equals("Grass")){
+            grass = true;
+        } else{
+            grass = false;
+        }
+        if(other.gameObject.tag.Equals("Mud")){
+            mud = true;
+        } else{
+            mud = false;
+        }
+        if(other.gameObject.tag.Equals("Track")){
+            track = true;
+        } else{
+            track = false;
+        }
     }
 }

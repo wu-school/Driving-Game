@@ -17,13 +17,13 @@ public class MudSlow : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-            DrivingControls carScript = other.gameObject.GetComponent<DrivingControls>();
-            carScript.setMud();
-            Debug.Log("entered mud");
+      //      DrivingControls carScript = other.gameObject.GetComponent<DrivingControls>();
+      //      carScript.setMud();
+      //      Debug.Log("entered mud");
     }
     private void OnTriggerExit2D(Collider2D other) {
-            DrivingControls carScript = other.gameObject.GetComponent<DrivingControls>();
-            carScript.exitMud();
-            Debug.Log("exited mud");
+       //     DrivingControls carScript = other.gameObject.GetComponent<DrivingControls>();
+       //     carScript.exitMud();
+       //     Debug.Log("exited mud");
     }
 }

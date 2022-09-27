@@ -18,10 +18,10 @@ public class GrassSlow : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
             DrivingControls carScript = other.gameObject.GetComponent<DrivingControls>();
-            carScript.setGrass();
+            carScript.exitGrass();
     }
     private void OnTriggerExit2D(Collider2D other) {
             DrivingControls carScript = other.gameObject.GetComponent<DrivingControls>();
-            carScript.exitGrass();
+            carScript.setGrass();
     }
 }
