@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1540076541312890928}
   - component: {fileID: 1540076541312890931}
   - component: {fileID: 1540076541312890930}
-  - component: {fileID: 4920487609306632664}
   m_Layer: 0
   m_Name: mudpile transparent
   m_TagString: Mud
@@ -195,15 +194,3 @@ PolygonCollider2D:
       - {x: -1.5949999, y: -2.37}
       - {x: -1.375, y: -2.32}
       - {x: -1.185, y: -2.26}
---- !u!114 &4920487609306632664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540076541312890933}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf2a099d8f1b12d4bb2915a7ab681681, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

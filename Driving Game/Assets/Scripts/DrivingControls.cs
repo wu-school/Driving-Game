@@ -5,7 +5,7 @@ using UnityEngine;
 public class DrivingControls : MonoBehaviour
 {
     [SerializeField] float acceration, torque, maxSpeed, speed, maxAngularVelocity;
-    public bool grass,track,mud;
+    [SerializeField] public int[] booleans = {0, 0, 0};
     public Rigidbody2D rb;
 
 
@@ -19,7 +19,9 @@ public class DrivingControls : MonoBehaviour
     void FixedUpdate()
     {
         speed = rb.velocity.magnitude;
-        
+        changeSurface();
+        torque = speed*0.5f;
+
         if (Vector2.Dot(rb.velocity, transform.up)>0){
             if(Input.GetKey(KeyCode.D) && rb.angularVelocity<maxAngularVelocity){
                 float turn = Input.GetAxis("Horizontal");
@@ -56,52 +58,47 @@ public class DrivingControls : MonoBehaviour
             rb.velocity = -transform.up*speed;
         }
         
-        if(mud){
-            maxSpeed = 0.95f;
-            rb.drag = 0.4f;
-        } else if(grass && !track){
-            maxSpeed = 3f;
-            rb.drag = 0.4f;
-        } else if(track && !mud) {
-            maxSpeed = 6.95f;
-            rb.drag = 0;
-        }              
+        
         
     }
-    public void setMud(){
-        
-    }
-    public void setGrass(){
-        maxSpeed = Mathf.Min(maxSpeed, 3);
-        rb.drag = 0.4f;
-    }
-    public void exitMud(){
-        maxSpeed = 6.95f;
-        rb.drag = 0;
-    }
-    public void exitGrass(){
-        maxSpeed = 6.95f;
-        rb.drag = 0;
-    }
-
     private void OnGUI() {  
         GUI.Label(new Rect(0,0,150,30), "Speed " + Mathf.RoundToInt(speed*100));
     }
     private void OnTriggerStay2D(Collider2D other) {
         if(other.gameObject.tag.Equals("Grass")){
-            grass = true;
+            booleans[2]++;
         } else{
-            grass = false;
         }
+        
         if(other.gameObject.tag.Equals("Mud")){
-            mud = true;
+            booleans[0]++;
+            return;
         } else{
-            mud = false;
         }
         if(other.gameObject.tag.Equals("Track")){
-            track = true;
+            booleans[1]++;
+            return;
         } else{
-            track = false;
         }
+    }
+
+    private void changeSurface(){
+        if(booleans[0]>0){
+            maxSpeed = 0.95f;
+            rb.drag = 0.4f;
+            Debug.Log("in mud");
+        } else if(booleans[1]>0){
+            maxSpeed = 6.95f;
+            rb.drag = 0;
+            Debug.Log("on track");
+        } else {
+            maxSpeed = 3f;
+            rb.drag = 0.4f;
+            Debug.Log("in grass");
+        }
+
+        booleans[0] = 0;
+        booleans[1] = 0;
+        booleans[2] = 0;   
     }
 }
