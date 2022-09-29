@@ -34,12 +34,12 @@ public class DrivingControls : MonoBehaviour
             }
         }
         else{
-            if(Input.GetKey(KeyCode.D) && rb.angularVelocity<maxAngularVelocity){
+            if(Input.GetKey(KeyCode.D) && -1*rb.angularVelocity<maxAngularVelocity){
                 float turn = Input.GetAxis("Horizontal");
-                rb.AddTorque(torque*turn*-1);
-            } else if(Input.GetKey(KeyCode.A) && -1*rb.angularVelocity<maxAngularVelocity){
+                rb.AddTorque(torque*turn);
+            } else if(Input.GetKey(KeyCode.A) && rb.angularVelocity<maxAngularVelocity){
                 float turn = Input.GetAxis("Horizontal");
-                rb.AddTorque(torque*turn*-1);
+                rb.AddTorque(torque*turn);
             } else{
                 rb.angularVelocity = 0;
             }
@@ -86,15 +86,15 @@ public class DrivingControls : MonoBehaviour
         if(booleans[0]>0){
             maxSpeed = 0.95f;
             rb.drag = 0.4f;
-            Debug.Log("in mud");
+          //  Debug.Log("in mud");
         } else if(booleans[1]>0){
             maxSpeed = 6.95f;
             rb.drag = 0;
-            Debug.Log("on track");
+           // Debug.Log("on track");
         } else {
             maxSpeed = 3f;
             rb.drag = 0.4f;
-            Debug.Log("in grass");
+           // Debug.Log("in grass");
         }
 
         booleans[0] = 0;
